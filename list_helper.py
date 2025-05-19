@@ -1,8 +1,10 @@
 class ListHelper:
-    def greatest_frequency(my_list: list):
+    @classmethod
+    def greatest_frequency(cls, my_list: list):
         return max(set(my_list), key=my_list.count)
 
-    def doubles(my_list: list):
+    @classmethod
+    def doubles(cls, my_list: list):
         element_count = []
         for element in my_list:
             if my_list.count(element) > 1:
