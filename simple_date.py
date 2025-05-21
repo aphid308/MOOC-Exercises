@@ -1,59 +1,43 @@
 class SimpleDate:
-    def __init__(self, day, month, year):
-        self.day = day
-        self.month = month
-        self.year = year
+    def __init__(self, date: int, month: int, year: int):
+        self.__date = date
+        self.__month = month
+        self.__year = year
+
     def __str__(self):
-        return f"{self.day}.{self.month}.{self.year}"
-    def __gt__(self, other):
-        if self.year > other.year:
-            return True
-        elif self.year == other.year:
-            if self.month > other.month:
-                return True
-            elif self.month == other.month:
-                if self.day > other.day:
-                    return True
-                else:
-                    return False
-            else:
-                return False
-        else:
-            return False
-    def __lt__(self, other):
-        if self.year < other.year:
-            return True
-        elif self.year == other.year:
-            if self.month < other.month:
-                return True
-            elif self.month == other.month:
-                if self.day > other.day:
-                    return True
-                else:
-                    return False
-            else:
-                return False
-        else:
-            return False
-    def __eq__(self, other):
-        if self.year == other.year and self.month == other.month and self.day == other.day:
-            return True
-        else:
-            return False
-    def __ne__(self, other):
-        if self.year != other.year or self.month != other.month or self.day != other.day:
-            return True
-        else:
-            return False
+        return f"{self.__date}.{self.__month}.{self.__year}"
+
+    def __date_to_days(self) -> int:
+        return ((self.__year - 1) * 360) + ((self.__month - 1) * 30) + (self.__date - 1)
+
+    def __days_to_date(self, days: int) -> "SimpleDate":
+        year_cal, remainder = divmod(days, 360)
+        month_cal, day_cal = divmod(remainder, 30)
+        return SimpleDate(day_cal + 1, month_cal + 1, year_cal + 1)
+
+    def __lt__(self, another: 'SimpleDate') -> bool:
+        return self.__date_to_days() < another.__date_to_days()
+
+    def __gt__(self, another: 'SimpleDate') -> bool:
+        return self.__date_to_days() > another.__date_to_days()
+
+    def __eq__(self, another: 'SimpleDate') -> bool:
+        return self.__date_to_days() == another.__date_to_days()
+
+    def __ne__(self, another: 'SimpleDate') -> bool:
+        return self.__date_to_days() != another.__date_to_days()
+
+    def __add__(self, days: int) -> 'SimpleDate':
+        return self.__days_to_date(self.__date_to_days() + days)
+
+    def __sub__(self, another: 'SimpleDate') -> 'SimpleDate':
+        current_date = self.__date_to_days() - another.__date_to_days()
+        return abs(current_date)
 d1 = SimpleDate(4, 10, 2020)
-d2 = SimpleDate(28, 12, 1985)
+d2 = SimpleDate(2, 11, 2020)
 d3 = SimpleDate(28, 12, 1985)
 
-print(d1)
-print(d2)
-print(d1 == d2)
-print(d1 != d2)
-print(d1 == d3)
-print(d1 < d2)
-print(d1 > d2)
+print(d2-d1)
+print(d1-d2)
+print(d1-d3)
 
