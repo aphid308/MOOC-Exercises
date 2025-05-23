@@ -49,9 +49,12 @@ class GradeBook:
 
     def distribution(self):
         grades = []
+        grade_distribution = {}
         for course in self.__courses.values():
             grades.append(course.grade())
-        return grades
+        for g in [5, 4, 3, 2, 1]:
+            grade_distribution[g] = grades.count(g)
+        return grade_distribution
 
 class CourseRecordApplication:
     def __init__(self):
@@ -81,11 +84,13 @@ class CourseRecordApplication:
     def get_statistics(self):
         total_courses = self.gradebook.total_courses()
         total_credits = self.gradebook.total_credits()
+        grade_distribution = self.gradebook.distribution()
         gpa = self.gradebook.gpa()
         print(f"{total_courses} completed courses, a total of {total_credits} credits")
         print(f"mean {gpa}")
         print("grade distribution")
-        print(self.gradebook.distribution())
+        for key, value in grade_distribution.items():
+            print(f"{key}: " + "x" * value)
 
 
     def execute(self):
@@ -107,6 +112,14 @@ class CourseRecordApplication:
 if __name__ == "__main__":
     application = CourseRecordApplication()
     application.execute()
+    # gradebook = GradeBook()
+    # course1 = CourseRecord("eng", 3, 1)
+    # course2 = CourseRecord("math", 3, 1)
+    # course3 = CourseRecord("physics", 2, 1)
+    # gradebook.add_course(course1)
+    # gradebook.add_course(course2)
+    # gradebook.add_course(course3)
+    # print(gradebook.distribution())
 
 
 
