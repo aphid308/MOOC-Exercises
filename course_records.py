@@ -10,6 +10,12 @@ class CourseRecord:
         return self.__grade
     def credits(self):
         return self.__credits
+    def __gt__(self, other):
+        return self.grade() > other.grade()
+    def __lt__(self, other):
+        return self.grade() < other.grade()
+    def __eq__(self, other):
+        return self.grade() == other.grade()
     def __str__(self):
         return f"{self.name()} ({self.credits()} cr) grade {self.grade()}"
 
@@ -18,13 +24,14 @@ class GradeBook:
         self.__courses = {}
 
     def add_course(self, course: CourseRecord):
-        if course.name() in self.__courses:
-            grade = self.__courses[course.name()].grade()
-            credits = self.__courses[course.name()].credits()
-            if course.grade() > grade or course.credits() > credits:
-                pass
-        else:
+        course = course
+        if course.name() not in self.__courses:
             self.__courses[course.name()] = course
+        else:
+            if course > self.__courses[course.name()]:
+                self.__courses[course.name()] = course
+            else:
+                pass
 
     def get_course(self, name:str):
         if name in self.__courses:
@@ -112,14 +119,6 @@ class CourseRecordApplication:
 if __name__ == "__main__":
     application = CourseRecordApplication()
     application.execute()
-    # gradebook = GradeBook()
-    # course1 = CourseRecord("eng", 3, 1)
-    # course2 = CourseRecord("math", 3, 1)
-    # course3 = CourseRecord("physics", 2, 1)
-    # gradebook.add_course(course1)
-    # gradebook.add_course(course2)
-    # gradebook.add_course(course3)
-    # print(gradebook.distribution())
 
 
 
