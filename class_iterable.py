@@ -44,5 +44,8 @@ if __name__ == "__main__":
     shelf.add_book(b3)
 
     # Print the names of all the books
-    for book in shelf:
-        print(book.name)
+    # for book in shelf:
+    #     print(book.name)
+    # iterate object with comprehension
+    book_names = [book.name for book in shelf]
+    print(book_names)
