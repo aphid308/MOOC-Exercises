@@ -1,4 +1,3 @@
-import itertools
 
 
 class Task:
@@ -83,17 +82,29 @@ class OrderBookApplication:
             if command == "0":
                 break
             elif command == "1":
-                self.add_order()
+                try:
+                    self.add_order()
+                except ValueError:
+                    print("erroneous input")
+                    continue
             elif command == "2":
                 self.list_finished_tasks()
             elif command == "3":
                 self.list_unfinished_tasks()
             elif command == "4":
-                self.mark_task_finished()
+                try:
+                    self.mark_task_finished()
+                except ValueError:
+                    print("erroneous input")
+                    continue
             elif command == "5":
                 self.programmers()
             elif command == "6":
-                self.status_of_programmer()
+                try:
+                    self.status_of_programmer()
+                except ValueError:
+                    print("erroneous input")
+                    continue
             else:
                 self.help()
     def add_order(self):
@@ -131,6 +142,6 @@ class OrderBookApplication:
         programmer_status = self.__orderbook.status_of_programmer(programmer)
         print(f"tasks: finished {programmer_status[0]} not finished {programmer_status[1]}, hours: done {programmer_status[2]} scheduled {programmer_status[3]}")
 
-
-application = OrderBookApplication()
-application.execute()
+if __name__ == "__main__":
+    application = OrderBookApplication()
+    application.execute()
